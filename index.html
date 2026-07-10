@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/jpeg" href="logo.jpg">
+    <script src="https://cdn.jsdelivr.net/npm/ethers@6.9.0/dist/ethers.umd.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700;900&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
     <style>
         * {
@@ -126,11 +127,19 @@
             font-weight: 700;
             cursor: pointer;
             transition: transform 0.3s, box-shadow 0.3s;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-size: 0.95rem;
         }
 
         .connect-wallet:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 20px rgba(255, 215, 0, 0.4);
+        }
+
+        .connect-wallet.connected {
+            background: transparent;
+            color: var(--gold);
+            border: 2px solid var(--gold);
         }
 
         /* 英雄区域 */
@@ -788,7 +797,7 @@
             <li><a href="#prizes">奖品</a></li>
             <li><a href="#roadmap">路线图</a></li>
         </ul>
-        <button class="connect-wallet" onclick="connectWallet()">连接钱包</button>
+        <button class="connect-wallet" id="walletBtn" onclick="toggleWallet()">连接钱包</button>
     </nav>
 
     <!-- 英雄区域 -->
@@ -1132,10 +1141,92 @@
             }, 5000);
         }
 
-        // 连接钱包
-        function connectWallet() {
-            alert('钱包连接功能将在主网上线后启用！\n\n当前为演示版本。');
+        // 钱包连接
+        let walletAddress = null;
+        let provider = null;
+        let signer = null;
+
+        async function toggleWallet() {
+            if (walletAddress) {
+                // 断开连接
+                walletAddress = null;
+                provider = null;
+                signer = null;
+                updateWalletUI();
+                return;
+            }
+
+            if (!window.ethereum) {
+                alert('请安装 MetaMask 或其他 Web3 钱包！\n推荐: MetaMask, TokenPocket, OKX Wallet');
+                return;
+            }
+
+            try {
+                provider = new ethers.BrowserProvider(window.ethereum);
+                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                
+                if (accounts.length > 0) {
+                    walletAddress = accounts[0];
+                    signer = await provider.getSigner();
+                    updateWalletUI();
+                }
+            } catch (err) {
+                console.error('连接失败:', err);
+                if (err.code === 4001) {
+                    alert('用户取消了连接请求');
+                } else {
+                    alert('连接失败: ' + (err.message || '未知错误'));
+                }
+            }
         }
+
+        function updateWalletUI() {
+            const btn = document.getElementById('walletBtn');
+            if (walletAddress) {
+                const short = walletAddress.slice(0, 6) + '...' + walletAddress.slice(-4);
+                btn.textContent = short + ' ✕';
+                btn.classList.add('connected');
+            } else {
+                btn.textContent = '连接钱包';
+                btn.classList.remove('connected');
+            }
+        }
+
+        // 监听账户变化
+        if (window.ethereum) {
+            window.ethereum.on('accountsChanged', (accounts) => {
+                if (accounts.length === 0) {
+                    walletAddress = null;
+                    signer = null;
+                } else {
+                    walletAddress = accounts[0];
+                }
+                updateWalletUI();
+            });
+
+            window.ethereum.on('chainChanged', () => {
+                window.location.reload();
+            });
+        }
+
+        // 页面加载时检查连接状态
+        async function checkConnected() {
+            if (window.ethereum) {
+                try {
+                    const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+                    if (accounts.length > 0) {
+                        walletAddress = accounts[0];
+                        provider = new ethers.BrowserProvider(window.ethereum);
+                        signer = await provider.getSigner();
+                        updateWalletUI();
+                    }
+                } catch (e) {
+                    console.log('检查连接状态失败', e);
+                }
+            }
+        }
+
+        checkConnected();
 
         // 平滑滚动
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
