@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>功夫女足 (Kung Fu Girls) - MEME代币</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700;900&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --gold: #FFD700;
+            --gold-dark: #B8860B;
+            --orange: #FF6B35;
+            --red: #DC143C;
+            --dark: #0a0a0a;
+            --dark-light: #1a1a1a;
+            --text: #f0f0f0;
+            --text-dim: #888;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: var(--dark);
+            color: var(--text);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* 粒子背景 */
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* 导航 */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .logo {
+            font-family: 'ZCOOL KuaiLe', cursive;
+            font-size: 1.8rem;
+            color: var(--gold);
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--gold), var(--orange));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 700;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .connect-wallet {
+            background: linear-gradient(135deg, var(--gold), var(--orange));
+            color: var(--dark);
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .connect-wallet:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.4);
+        }
+
+        /* 英雄区域 */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            background: rgba(255, 107, 53, 0.2);
+            border: 1px solid var(--orange);
+            color: var(--orange);
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 5px rgba(255, 107, 53, 0.3); }
+            to { box-shadow: 0 0 20px rgba(255, 107, 53, 0.6); }
+        }
+
+        .hero h1 {
+            font-family: 'ZCOOL KuaiLe', cursive;
+            font-size: clamp(3rem, 8vw, 6rem);
+            color: var(--gold);
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.5), 0 0 60px rgba(255, 107, 53, 0.3);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero h1 span {
+            color: var(--orange);
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-dim);
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 3rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--gold);
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .stat-label {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold), var(--orange));
+            color: var(--dark);
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--gold);
+            border: 2px solid var(--gold);
+            padding: 1rem 2.5rem;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-secondary:hover {
+            background: var(--gold);
+            color: var(--dark);
+        }
+
+        /* 龙形分隔线 */
+        .dragon-divider {
+            width: 100%;
+            height: 100px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 100"><path d="M0,50 Q300,0 600,50 T1200,50" stroke="%23FFD700" stroke-width="2" fill="none" opacity="0.5"/><circle cx="600" cy="50" r="30" fill="%23FFD700" opacity="0.2"/></svg>') center/contain no-repeat;
+            margin: 2rem 0;
+        }
+
+        /* 抽奖区域 */
+        .lottery-section {
+            padding: 5rem 2rem;
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: 'ZCOOL KuaiLe', cursive;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            color: var(--gold);
+            text-align: center;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-dim);
+            margin-bottom: 3rem;
+        }
+
+        .lottery-container {
+            background: linear-gradient(135deg, rgba(26, 26, 26, 0.9), rgba(10, 10, 10, 0.9));
+            border: 2px solid var(--gold);
+            border-radius: 20px;
+            padding: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lottery-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(transparent, rgba(255, 215, 0, 0.1), transparent);
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .lottery-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .lottery-display {
+            background: var(--dark);
+            border: 2px solid var(--gold-dark);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .hash-display {
+            font-family: 'Courier New', monospace;
+            font-size: 1.5rem;
+            color: var(--gold);
+            letter-spacing: 3px;
+            margin: 1rem 0;
+            min-height: 2rem;
+        }
+
+        .hash-display.rolling {
+            animation: hashRoll 0.1s infinite;
+        }
+
+        @keyframes hashRoll {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+
+        .lottery-result {
+            font-size: 2rem;
+            font-weight: 900;
+            margin: 1rem 0;
+            min-height: 3rem;
+        }
+
+        .lottery-result.win {
+            color: var(--gold);
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            animation: winPulse 1s infinite;
+        }
+
+        .lottery-result.lose {
+            color: var(--text-dim);
+        }
+
+        @keyframes winPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .token-cost {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 1.2rem;
+            color: var(--orange);
+            margin-bottom: 1.5rem;
+        }
+
+        .lottery-btn {
+            background: linear-gradient(135deg, var(--gold), var(--orange));
+            color: var(--dark);
+            border: none;
+            padding: 1.2rem 4rem;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'ZCOOL KuaiLe', cursive;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lottery-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.5);
+        }
+
+        .lottery-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .lottery-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: rotate(30deg);
+            transition: all 0.5s;
+        }
+
+        .lottery-btn:hover::after {
+            left: 100%;
+        }
+
+        /* 奖品展示 */
+        .prizes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .prize-card {
+            background: var(--dark-light);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .prize-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--gold);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2);
+        }
+
+        .prize-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .prize-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .prize-desc {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        .prize-tag {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--red);
+            color: white;
+            padding: 0.2rem 0.8rem;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        /* 代币经济 */
+        .tokenomics-section {
+            padding: 5rem 2rem;
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .tokenomics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .tokenomics-card {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 107, 53, 0.1));
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+
+        .tokenomics-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-5px);
+        }
+
+        .tokenomics-card h3 {
+            color: var(--gold);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .tokenomics-card p {
+            color: var(--text-dim);
+            line-height: 1.6;
+        }
+
+        /* 路线图 */
+        .roadmap-section {
+            padding: 5rem 2rem;
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .roadmap-timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .roadmap-timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--gold), var(--orange));
+            transform: translateX(-50%);
+        }
+
+        .roadmap-item {
+            display: flex;
+            justify-content: flex-end;
+            padding-right: 50%;
+            position: relative;
+            margin-bottom: 3rem;
+        }
+
+        .roadmap-item:nth-child(even) {
+            justify-content: flex-start;
+            padding-right: 0;
+            padding-left: 50%;
+        }
+
+        .roadmap-content {
+            background: var(--dark-light);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem;
+            max-width: 400px;
+            margin: 0 2rem;
+            position: relative;
+        }
+
+        .roadmap-content::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--gold);
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .roadmap-item:nth-child(odd) .roadmap-content::before {
+            right: -2.7rem;
+        }
+
+        .roadmap-item:nth-child(even) .roadmap-content::before {
+            left: -2.7rem;
+        }
+
+        .roadmap-phase {
+            color: var(--orange);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .roadmap-title {
+            color: var(--gold);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .roadmap-desc {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        /* 页脚 */
+        footer {
+            background: var(--dark-light);
+            border-top: 1px solid rgba(255, 215, 0, 0.2);
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-logo {
+            font-family: 'ZCOOL KuaiLe', cursive;
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--gold);
+        }
+
+        .footer-disclaimer {
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            margin-top: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* 动画类 */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-stats {
+                gap: 1.5rem;
+            }
+
+            .roadmap-timeline::before {
+                left: 20px;
+            }
+
+            .roadmap-item,
+            .roadmap-item:nth-child(even) {
+                justify-content: flex-start;
+                padding-right: 0;
+                padding-left: 50px;
+            }
+
+            .roadmap-content::before,
+            .roadmap-item:nth-child(even) .roadmap-content::before {
+                left: -2.7rem;
+            }
+        }
+
+        /* Confetti */
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            overflow: hidden;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            animation: confetti-fall 3s ease-out forwards;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* 武术装饰元素 */
+        .kungfu-decoration {
+            position: absolute;
+            font-size: 5rem;
+            opacity: 0.1;
+            pointer-events: none;
+            z-index: 0;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- 导航 -->
+    <nav>
+        <div class="logo">
+            <div class="logo-icon">⚽</div>
+            功夫女足
+        </div>
+        <ul class="nav-links">
+            <li><a href="#lottery">哈希抽奖</a></li>
+            <li><a href="#prizes">奖品</a></li>
+            <li><a href="#tokenomics">代币经济</a></li>
+            <li><a href="#roadmap">路线图</a></li>
+        </ul>
+        <button class="connect-wallet" onclick="connectWallet()">连接钱包</button>
+    </nav>
+
+    <!-- 英雄区域 -->
+    <section class="hero">
+        <div class="hero-badge">🎬 致敬即将上映的功夫女足电影</div>
+        <h1>功夫女足<br><span>Kung Fu Girls</span></h1>
+        <p class="hero-subtitle">首个融合中国功夫与足球文化的MEME代币！消耗9527枚代币参与哈希抽奖，赢取电影票报销卷！</p>
+        <div class="hero-stats">
+            <div class="stat-item">
+                <div class="stat-value">9,527</div>
+                <div class="stat-label">单次抽奖消耗</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">100M</div>
+                <div class="stat-label">代币总量</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">🎫</div>
+                <div class="stat-label">电影票报销</div>
+            </div>
+        </div>
+        <div class="cta-buttons">
+            <a href="#lottery" class="btn-primary">立即抽奖 ⚡</a>
+            <a href="#tokenomics" class="btn-secondary">了解代币</a>
+        </div>
+    </section>
+
+    <div class="dragon-divider"></div>
+
+    <!-- 抽奖区域 -->
+    <section class="lottery-section" id="lottery">
+        <h2 class="section-title">🔥 哈希抽奖</h2>
+        <p class="section-subtitle">消耗9527枚 $KUNGFU 代币，参与链上哈希抽奖，赢取丰厚奖励！</p>
+        
+        <div class="lottery-container">
+            <div class="lottery-content">
+                <div class="lottery-display">
+                    <div class="token-cost">
+                        <span>💰</span>
+                        <span>每次抽奖消耗: <strong>9,527 $KUNGFU</strong></span>
+                    </div>
+                    <div class="hash-display" id="hashDisplay">点击按钮开始抽奖</div>
+                    <div class="lottery-result" id="lotteryResult"></div>
+                </div>
+                <div style="text-align: center;">
+                    <button class="lottery-btn" id="lotteryBtn" onclick="startLottery()">
+                        🥋 开始抽奖
+                    </button>
+                </div>
+                <div style="text-align: center; margin-top: 1rem; color: var(--text-dim); font-size: 0.9rem;">
+                    基于区块链哈希值随机算法，公平透明 🔗
+                </div>
+            </div>
+        </div>
+
+        <div class="prizes-grid" id="prizes">
+            <div class="prize-card">
+                <div class="prize-tag">大奖</div>
+                <div class="prize-icon">🎬</div>
+                <div class="prize-name">电影票报销卷</div>
+                <div class="prize-desc">《功夫女足》首映电影票全额报销 + 限量周边</div>
+            </div>
+            <div class="prize-card">
+                <div class="prize-tag">稀有</div>
+                <div class="prize-icon">⚽</div>
+                <div class="prize-name">签名足球</div>
+                <div class="prize-desc">功夫女足剧组签名限量版足球</div>
+            </div>
+            <div class="prize-card">
+                <div class="prize-tag">常见</div>
+                <div class="prize-icon">🪙</div>
+                <div class="prize-name">代币奖励</div>
+                <div class="prize-desc">获得额外 1,000-10,000 $KUNGFU 代币</div>
+            </div>
+            <div class="prize-card">
+                <div class="prize-tag">参与奖</div>
+                <div class="prize-icon">🎁</div>
+                <div class="prize-name">NFT徽章</div>
+                <div class="prize-desc">限量版功夫女足粉丝NFT徽章</div>
+            </div>
+        </div>
+    </section>
+
+    <div class="dragon-divider"></div>
+
+    <!-- 代币经济 -->
+    <section class="tokenomics-section" id="tokenomics">
+        <h2 class="section-title">💎 代币经济</h2>
+        <p class="section-subtitle">$KUNGFU 代币分配与用途</p>
+        
+        <div class="tokenomics-grid">
+            <div class="tokenomics-card">
+                <h3>🎰 抽奖池 (40%)</h3>
+                <p>用于哈希抽奖奖励池，包括电影票报销、签名周边、代币奖励等。每次抽奖的代币将部分回流奖池，持续激励生态。</p>
+            </div>
+            <div class="tokenomics-card">
+                <h3>💧 流动性 (30%)</h3>
+                <p>用于DEX流动性提供，确保代币交易顺畅。与ETH配对建立流动性池，锁定至少1年。</p>
+            </div>
+            <div class="tokenomics-card">
+                <h3>🚀 营销推广 (15%)</h3>
+                <p>用于功夫女足电影联动推广、KOL合作、社区活动、空投奖励等市场推广活动。</p>
+            </div>
+            <div class="tokenomics-card">
+                <h3>👥 团队与开发 (10%)</h3>
+                <p>团队开发、运营、维护费用。锁定期6个月，之后线性释放12个月。</p>
+            </div>
+            <div class="tokenomics-card">
+                <h3>🎁 社区空投 (5%)</h3>
+                <p>早期支持者、活跃社区成员空投奖励。持有即有机会获得额外福利。</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="dragon-divider"></div>
+
+    <!-- 路线图 -->
+    <section class="roadmap-section" id="roadmap">
+        <h2 class="section-title">🗺️ 路线图</h2>
+        <p class="section-subtitle">$KUNGFU 发展规划</p>
+        
+        <div class="roadmap-timeline">
+            <div class="roadmap-item">
+                <div class="roadmap-content">
+                    <div class="roadmap-phase">第一阶段</div>
+                    <div class="roadmap-title">🥋 功夫初现</div>
+                    <div class="roadmap-desc">代币发行、官网上线、哈希抽奖功能启动、首批社区建设</div>
+                </div>
+            </div>
+            <div class="roadmap-item">
+                <div class="roadmap-content">
+                    <div class="roadmap-phase">第二阶段</div>
+                    <div class="roadmap-title">⚽ 球场争锋</div>
+                    <div class="roadmap-desc">DEX上线、流动性挖矿、NFT徽章发行、社区DAO治理启动</div>
+                </div>
+            </div>
+            <div class="roadmap-item">
+                <div class="roadmap-content">
+                    <div class="roadmap-phase">第三阶段</div>
+                    <div class="roadmap-title">🎬 电影联动</div>
+                    <div class="roadmap-desc">功夫女足电影首映合作、线下活动、明星见面会抽奖、票房分红计划</div>
+                </div>
+            </div>
+            <div class="roadmap-item">
+                <div class="roadmap-content">
+                    <div class="roadmap-phase">第四阶段</div>
+                    <div class="roadmap-title">🌟 武林至尊</div>
+                    <div class="roadmap-desc">跨链部署、元宇宙足球场、GameFi生态、功夫女足IP授权周边商城</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-logo">⚽ 功夫女足 Kung Fu Girls</div>
+        <div class="footer-links">
+            <a href="#">Twitter</a>
+            <a href="#">Telegram</a>
+            <a href="#">Discord</a>
+            <a href="#">GitHub</a>
+        </div>
+        <p class="footer-disclaimer">
+            $KUNGFU 是致敬功夫女足电影的MEME代币，仅供娱乐和社区参与。不构成投资建议。请理性参与，注意风险。
+        </p>
+    </footer>
+
+    <script>
+        // 粒子背景
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particles = [];
+        const particleCount = 100;
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = Math.random() * 1 - 0.5;
+                this.speedY = Math.random() * 1 - 0.5;
+                this.color = Math.random() > 0.5 ? '#FFD700' : '#FF6B35';
+                this.opacity = Math.random() * 0.5 + 0.2;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x > canvas.width) this.x = 0;
+                if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                if (this.y < 0) this.y = canvas.height;
+            }
+
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = this.opacity;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.globalAlpha = 1;
+            }
+        }
+
+        function initParticles() {
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+
+        initParticles();
+        animateParticles();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // 滚动动画
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.prize-card, .tokenomics-card, .roadmap-item').forEach(el => {
+            el.classList.add('fade-in');
+            observer.observe(el);
+        });
+
+        // 抽奖功能
+        let isRolling = false;
+
+        function generateHash() {
+            const chars = '0123456789ABCDEF';
+            let hash = '0x';
+            for (let i = 0; i < 64; i++) {
+                hash += chars[Math.floor(Math.random() * 16)];
+            }
+            return hash;
+        }
+
+        function startLottery() {
+            if (isRolling) return;
+            
+            const btn = document.getElementById('lotteryBtn');
+            const hashDisplay = document.getElementById('hashDisplay');
+            const result = document.getElementById('lotteryResult');
+            
+            isRolling = true;
+            btn.disabled = true;
+            btn.textContent = '🥋 抽奖中...';
+            hashDisplay.classList.add('rolling');
+            result.textContent = '';
+            result.className = 'lottery-result';
+
+            let rollCount = 0;
+            const maxRolls = 30;
+            
+            const rollInterval = setInterval(() => {
+                hashDisplay.textContent = generateHash();
+                rollCount++;
+                
+                if (rollCount >= maxRolls) {
+                    clearInterval(rollInterval);
+                    finishLottery();
+                }
+            }, 100);
+        }
+
+        function finishLottery() {
+            const btn = document.getElementById('lotteryBtn');
+            const hashDisplay = document.getElementById('hashDisplay');
+            const result = document.getElementById('lotteryResult');
+            
+            hashDisplay.classList.remove('rolling');
+            
+            // 模拟抽奖结果 (70% 中奖率用于演示)
+            const isWin = Math.random() > 0.3;
+            const prizes = [
+                { name: '🎬 电影票报销卷！', type: 'grand' },
+                { name: '⚽ 签名足球！', type: 'rare' },
+                { name: '🪙 5,000 $KUNGFU 代币！', type: 'common' },
+                { name: '🎁 粉丝NFT徽章！', type: 'participation' }
+            ];
+            
+            if (isWin) {
+                const prize = prizes[Math.floor(Math.random() * prizes.length)];
+                result.textContent = '恭喜中奖！' + prize.name;
+                result.className = 'lottery-result win';
+                createConfetti();
+            } else {
+                result.textContent = '很遗憾，这次没有中奖。再试一次！';
+                result.className = 'lottery-result lose';
+            }
+            
+            isRolling = false;
+            btn.disabled = false;
+            btn.textContent = '🥋 再抽一次';
+        }
+
+        // 彩纸效果
+        function createConfetti() {
+            const container = document.createElement('div');
+            container.className = 'confetti-container';
+            document.body.appendChild(container);
+            
+            const colors = ['#FFD700', '#FF6B35', '#DC143C', '#00FF00', '#FF1493'];
+            
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                container.appendChild(confetti);
+            }
+            
+            setTimeout(() => {
+                container.remove();
+            }, 5000);
+        }
+
+        // 连接钱包
+        function connectWallet() {
+            alert('钱包连接功能将在主网上线后启用！\n\n当前为演示版本。');
+        }
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
