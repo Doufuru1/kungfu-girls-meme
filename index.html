@@ -469,44 +469,72 @@
             font-weight: 700;
         }
 
-        /* 代币经济 */
-        .tokenomics-section {
-            padding: 5rem 2rem;
+        /* 发射预告 */
+        .launch-banner {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 107, 53, 0.15));
+            border: 2px solid var(--gold);
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            margin: 3rem auto;
+            max-width: 800px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .launch-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(transparent, rgba(255, 215, 0, 0.1), transparent);
+            animation: rotate 10s linear infinite;
+        }
+
+        .launch-content {
             position: relative;
             z-index: 1;
-            max-width: 1200px;
-            margin: 0 auto;
         }
 
-        .tokenomics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .tokenomics-card {
-            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 107, 53, 0.1));
-            border: 1px solid rgba(255, 215, 0, 0.2);
-            border-radius: 15px;
-            padding: 2rem;
-            transition: all 0.3s;
-        }
-
-        .tokenomics-card:hover {
-            border-color: var(--gold);
-            transform: translateY(-5px);
-        }
-
-        .tokenomics-card h3 {
+        .launch-title {
+            font-family: 'ZCOOL KuaiLe', cursive;
+            font-size: 2.5rem;
             color: var(--gold);
             margin-bottom: 1rem;
-            font-size: 1.3rem;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
         }
 
-        .tokenomics-card p {
+        .launch-platform {
+            font-size: 1.5rem;
+            color: var(--orange);
+            font-weight: 900;
+            margin: 1rem 0;
+        }
+
+        .launch-desc {
             color: var(--text-dim);
+            font-size: 1.1rem;
             line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .launch-features {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin: 1.5rem 0;
+        }
+
+        .launch-feature {
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 10px;
+            padding: 0.8rem 1.5rem;
+            color: var(--gold);
+            font-weight: 700;
         }
 
         /* 路线图 */
@@ -751,7 +779,6 @@
         <ul class="nav-links">
             <li><a href="#lottery">哈希抽奖</a></li>
             <li><a href="#prizes">奖品</a></li>
-            <li><a href="#tokenomics">代币经济</a></li>
             <li><a href="#roadmap">路线图</a></li>
         </ul>
         <button class="connect-wallet" onclick="connectWallet()">连接钱包</button>
@@ -778,8 +805,8 @@
             </div>
         </div>
         <div class="cta-buttons">
-            <a href="#lottery" class="btn-primary">立即抽奖 ⚡</a>
-            <a href="#tokenomics" class="btn-secondary">了解代币</a>
+            <a href="#launch" class="btn-primary">🚀 公平发射预告</a>
+            <a href="#lottery" class="btn-secondary">立即抽奖 ⚡</a>
         </div>
     </section>
 
@@ -841,31 +868,25 @@
 
     <div class="dragon-divider"></div>
 
-    <!-- 代币经济 -->
-    <section class="tokenomics-section" id="tokenomics">
-        <h2 class="section-title">💎 代币经济</h2>
-        <p class="section-subtitle">$KUNGFU 代币分配与用途</p>
-        
-        <div class="tokenomics-grid">
-            <div class="tokenomics-card">
-                <h3>🎰 抽奖池 (40%)</h3>
-                <p>用于哈希抽奖奖励池，包括电影票报销、签名周边、代币奖励等。每次抽奖的代币将部分回流奖池，持续激励生态。</p>
-            </div>
-            <div class="tokenomics-card">
-                <h3>💧 流动性 (30%)</h3>
-                <p>用于DEX流动性提供，确保代币交易顺畅。与ETH配对建立流动性池，锁定至少1年。</p>
-            </div>
-            <div class="tokenomics-card">
-                <h3>🚀 营销推广 (15%)</h3>
-                <p>用于功夫女足电影联动推广、KOL合作、社区活动、空投奖励等市场推广活动。</p>
-            </div>
-            <div class="tokenomics-card">
-                <h3>👥 团队与开发 (10%)</h3>
-                <p>团队开发、运营、维护费用。锁定期6个月，之后线性释放12个月。</p>
-            </div>
-            <div class="tokenomics-card">
-                <h3>🎁 社区空投 (5%)</h3>
-                <p>早期支持者、活跃社区成员空投奖励。持有即有机会获得额外福利。</p>
+    <!-- Four.meme 公平发射 -->
+    <section class="launch-section" id="launch">
+        <div class="launch-banner">
+            <div class="launch-content">
+                <div class="launch-title">🚀 公平发射即将开启</div>
+                <div class="launch-platform">Four.meme</div>
+                <p class="launch-desc">
+                    $KUNGFU 将在 <strong>Four.meme</strong> 平台正式开启公平发射！<br>
+                    无预售、无内幕、无团队预留，所有人同一起跑线！
+                </p>
+                <div class="launch-features">
+                    <div class="launch-feature">🔥 100% 公平发射</div>
+                    <div class="launch-feature">🚫 无预售</div>
+                    <div class="launch-feature">🚫 无团队预留</div>
+                    <div class="launch-feature">⚡ 即时交易</div>
+                </div>
+                <p style="color: var(--text-dim); margin-top: 1rem;">
+                    关注官方社群获取发射时间 ⏰
+                </p>
             </div>
         </div>
     </section>
@@ -1002,7 +1023,7 @@
             });
         }, observerOptions);
 
-        document.querySelectorAll('.prize-card, .tokenomics-card, .roadmap-item').forEach(el => {
+        document.querySelectorAll('.prize-card, .roadmap-item').forEach(el => {
             el.classList.add('fade-in');
             observer.observe(el);
         });
