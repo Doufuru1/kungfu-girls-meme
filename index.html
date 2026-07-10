@@ -736,13 +736,20 @@
         }
 
         .logo img {
-            width: 45px;
-            height: 45px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid var(--gold);
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
             animation: pulse 2s infinite;
+        }
+
+        .logo-text {
+            font-family: 'ZCOOL KuaiLe', cursive;
+            font-size: 1.5rem;
+            color: var(--gold);
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
         }
 
         .hero-logo {
@@ -774,7 +781,7 @@
     <nav>
         <div class="logo">
             <img src="logo.jpg" alt="功夫女足 Logo">
-            功夫女足
+            <span class="logo-text">功夫女足</span>
         </div>
         <ul class="nav-links">
             <li><a href="#lottery">哈希抽奖</a></li>
